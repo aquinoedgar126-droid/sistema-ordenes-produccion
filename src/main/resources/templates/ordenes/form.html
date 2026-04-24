@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Nueva orden</title>
+</head>
+<body>
+  <h1>Nueva orden</h1>
+
+  <p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+  <form th:action="@{/ordenes}" method="post" th:object="${orden}">
+    <div>
+      <label>OT *</label><br>
+      <input type="text" th:field="*{ot}" required>
+    </div>
+
+    <div>
+      <label>Código</label><br>
+      <input type="text" th:field="*{codigo}">
+    </div>
+
+    <div>
+      <label>Producto</label><br>
+      <input type="text" th:field="*{producto}">
+    </div>
+
+    <div>
+      <label>Fecha requerida</label><br>
+      <input type="date" th:field="*{fechaRequerida}">
+    </div>
+
+    <div>
+      <label>Kg requerido</label><br>
+      <input type="number" step="0.01" th:field="*{kgRequerido}">
+    </div>
+
+    <br>
+    <button type="submit">Guardar</button>
+    <a th:href="@{/ordenes}">Cancelar</a>
+  </form>
+</body>
+</html>

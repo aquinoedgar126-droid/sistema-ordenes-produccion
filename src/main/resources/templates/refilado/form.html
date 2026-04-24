@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${modoEdicion} ? 'Editar Refilado' : 'Nueva Captura de Refilado'"></title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="modulo-refilado">
+    <div class="encabezado encabezado-refilado"
+         th:text="${modoEdicion} ? 'Editar Captura de Refilado' : 'Nueva Captura de Refilado'">
+    </div>
+
+    <div class="form-card">
+        <form th:action="@{/refilado/guardar}" method="post">
+
+            <input type="hidden" name="id" th:value="${refilado != null ? refilado.id : ''}">
+
+            <div class="form-section">
+                <h3>Datos de la orden</h3>
+            </div>
+
+            <div class="form-grid">
+                <div class="campo-formulario">
+                    <label>OT *</label>
+                    <input type="text" name="ot" required th:value="${orden != null ? orden.ot : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Cantidad requerida</label>
+                    <input type="number" step="0.01" name="cantidadRequeridaot"
+                           th:value="${refilado != null ? refilado.cantidadRequeridaot : ''}">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Datos de refilado</h3>
+            </div>
+
+            <div class="form-grid">
+                <div class="campo-formulario">
+                    <label>Kilos refilados</label>
+                    <input type="number" step="0.01" name="kgRefilado"
+                           th:value="${refilado != null ? refilado.kgRefilado : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kilos desperdicio</label>
+                    <input type="number" step="0.01" name="kgDesperdicio"
+                           th:value="${refilado != null ? refilado.kgDesperdicio : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Desp_edit</label>
+                    <input type="number" step="0.01" name="kgDesperdicioEdit"
+                           th:value="${refilado != null ? refilado.kgDesperdicioEdit : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kilos de refil</label>
+                    <input type="number" step="0.01" name="kgRefil"
+                           th:value="${refilado != null ? refilado.kgRefil : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Retorno</label>
+                    <input type="number" step="0.01" name="retorno"
+                           th:value="${refilado != null ? refilado.retorno : ''}">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="boton-guardar"
+                        th:text="${modoEdicion} ? 'ACTUALIZAR CAPTURA' : 'GUARDAR CAPTURA'">
+                </button>
+
+                <a th:href="@{/refilado}" class="boton-principal">VOLVER AL MÓDULO DE REFILADO</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${modoEdicion} ? 'Editar Impresión' : 'Nueva Captura de Impresión'"></title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="modulo-impresion">
+    <div class="encabezado encabezado-impresion"
+         th:text="${modoEdicion} ? 'Editar Captura de Impresión' : 'Nueva Captura de Impresión'">
+    </div>
+
+    <div class="form-card">
+        <form th:action="@{/impresion/guardar}" method="post">
+
+            <input type="hidden" name="id" th:value="${impresion != null ? impresion.id : ''}">
+
+            <div class="form-section">
+                <h3>Datos de la orden</h3>
+            </div>
+
+            <div class="form-grid">
+                <div class="campo-formulario">
+                    <label>OT *</label>
+                    <input type="text" name="ot" required th:value="${orden != null ? orden.ot : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Código</label>
+                    <input type="text" name="codigo" th:value="${orden != null ? orden.codigo : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Producto</label>
+                    <input type="text" name="producto" th:value="${orden != null ? orden.producto : ''}">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Material utilizado</h3>
+            </div>
+
+            <div class="form-grid">
+                <div class="campo-formulario">
+                    <label>Código material</label>
+                    <input type="text" name="codigoMaterial"
+                           th:value="${impresion != null ? impresion.codigoMaterial : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Descripción material</label>
+                    <input type="text" name="descripcionMaterial"
+                           th:value="${impresion != null ? impresion.descripcionMaterial : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kg Req</label>
+                    <input type="number" step="0.01" name="kgReqMaterial"
+                           th:value="${impresion != null ? impresion.kgReqMaterial : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kg Surt</label>
+                    <input type="number" step="0.01" name="kgSurtMaterial"
+                           th:value="${impresion != null ? impresion.kgSurtMaterial : ''}">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Datos de impresión</h3>
+            </div>
+
+            <div class="form-grid">
+                <div class="campo-formulario">
+                    <label>Kilos Req/Surt</label>
+                    <input type="number" step="0.01" name="kgReqSurt"
+                           th:value="${impresion != null ? impresion.kgReqSurt : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kilos surtidos</label>
+                    <input type="number" step="0.01" name="kgSurtido"
+                           th:value="${impresion != null ? impresion.kgSurtido : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Ancho de material (cm)</label>
+                    <input type="number" step="0.01" name="anchoMaterial"
+                           th:value="${impresion != null ? impresion.anchoMaterial : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kilos impresos</label>
+                    <input type="number" step="0.01" name="kgImpreso"
+                           th:value="${impresion != null ? impresion.kgImpreso : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kilos desperdicio</label>
+                    <input type="number" step="0.01" name="kgDesperdicio"
+                           th:value="${impresion != null ? impresion.kgDesperdicio : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Desp_edit</label>
+                    <input type="number" step="0.01" name="kgDesperdicioEdit"
+                           th:value="${impresion != null ? impresion.kgDesperdicioEdit : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Metros</label>
+                    <input type="number" step="0.01" name="metros"
+                           th:value="${impresion != null ? impresion.metros : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Retorno real</label>
+                    <input type="number" step="0.01" name="retornoReal"
+                           th:value="${impresion != null ? impresion.retornoReal : ''}">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="boton-guardar"
+                        th:text="${modoEdicion} ? 'ACTUALIZAR CAPTURA' : 'GUARDAR CAPTURA'">
+                </button>
+
+                <a th:href="@{/impresion}" class="boton-principal">VOLVER AL MÓDULO DE IMPRESIÓN</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

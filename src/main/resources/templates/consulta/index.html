@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta General</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="modulo-consulta">
+    <div class="encabezado encabezado-consulta">Consulta general por OT</div>
+
+    <div class="contenedor">
+        <form th:action="@{/consulta/buscar}" method="post">
+            <div class="campo-formulario">
+                <label>Orden de trabajo (OT):</label>
+                <input type="text" name="ot" required>
+            </div>
+            <button type="submit" class="boton-principal">BUSCAR</button>
+        </form>
+
+        <p th:if="${error}" th:text="${error}" style="color:red; font-weight:bold;"></p>
+
+        <div th:if="${orden != null}">
+            <div class="dashboard-grid">
+
+                <!-- DATOS GENERALES -->
+                <div class="dashboard-card resumen">
+                    <h2>Datos generales de la orden</h2>
+                    <div class="kpi-row">
+                        <div class="kpi-box">
+                            <div class="label">OT</div>
+                            <div class="value" th:text="${orden.ot}"></div>
+                        </div>
+
+                        <div class="kpi-box">
+                            <div class="label">Código</div>
+                            <div class="value" th:text="${orden.codigo != null ? orden.codigo : '-'}"></div>
+                        </div>
+
+                        <div class="kpi-box">
+                            <div class="label">Producto</div>
+                            <div class="value" th:text="${orden.producto != null ? orden.producto : '-'}"></div>
+                        </div>
+
+                        <div class="kpi-box">
+                            <div class="label">Fecha requerida</div>
+                            <div class="value" th:text="${orden.fechaRequerida != null ? orden.fechaRequerida : '-'}"></div>
+                        </div>
+
+                        <div class="kpi-box">
+                            <div class="label">Kg requerido</div>
+                            <div class="value"
+                                 th:text="${orden.kgRequerido != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', orden.kgRequerido) : 'Sin dato'}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IMPRESION -->
+                <div class="dashboard-card impresion">
+                    <h2>Impresión</h2>
+
+                    <div th:if="${impresion != null}" class="dashboard-two-col">
+
+                        <div class="dashboard-info">
+                            <p><strong>Kg Req/Surt:</strong>
+                                <span th:text="${impresion.kgReqSurt != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.kgReqSurt) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg surtido:</strong>
+                                <span th:text="${impresion.kgSurtido != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.kgSurtido) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Ancho material:</strong>
+                                <span th:text="${impresion.anchoMaterial != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.anchoMaterial) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg impreso:</strong>
+                                <span th:text="${impresion.kgImpreso != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.kgImpreso) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg desperdicio:</strong>
+                                <span th:text="${impresion.kgDesperdicio != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.kgDesperdicio) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Desp_edit:</strong>
+                                <span th:text="${impresion.kgDesperdicioEdit != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.kgDesperdicioEdit) : '0.00'}"></span>
+                            </p>
+
+                            <p><strong>Metros:</strong>
+                                <span th:text="${impresion.metros != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.metros) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Metros cuadrados:</strong>
+                                <span th:text="${impresion.metrosCuadrados != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.metrosCuadrados) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg tinta:</strong>
+                                <span th:text="${impresion.kgTinta != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.kgTinta) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Diferencia surtido vs impreso:</strong>
+                                <span th:text="${impresion.difSurtVsImpreso != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.difSurtVsImpreso) : 'Sin dato'}"
+                                      th:class="${impresion.difSurtVsImpreso == null ? 'sin-datos' :
+                                                 (impresion.difSurtVsImpreso >= -10 and impresion.difSurtVsImpreso <= 10 ? 'verde' :
+                                                 ((impresion.difSurtVsImpreso >= -30 and impresion.difSurtVsImpreso < -10) or (impresion.difSurtVsImpreso > 10 and impresion.difSurtVsImpreso <= 30) ? 'amarillo' : 'rojo'))}">
+                                </span>
+                            </p>
+
+                            <p><strong>Retorno real:</strong>
+                                <span th:text="${impresion.retornoReal != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.retornoReal) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Estado:</strong>
+                                <span th:text="${impresion.estadoProceso != null ? impresion.estadoProceso : 'Sin dato'}"
+                                      th:class="${impresion.estadoProceso == null ? 'sin-datos' :
+                                                 (impresion.estadoProceso == 'Secuencia imp completada' ? 'verde' : 'rojo')}">
+                                </span>
+                            </p>
+                        </div>
+
+                        <div class="material-box">
+                            <h4>Material utilizado de esta orden</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Código material</th>
+                                        <th>Descripción material</th>
+                                        <th>Kg Req</th>
+                                        <th>Kg Surt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td th:text="${impresion.codigoMaterial != null ? impresion.codigoMaterial : '-'}"></td>
+                                        <td th:text="${impresion.descripcionMaterial != null ? impresion.descripcionMaterial : '-'}"></td>
+                                        <td th:text="${impresion.kgReqMaterial != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.kgReqMaterial) : '0.00'}"></td>
+                                        <td th:text="${impresion.kgSurtMaterial != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', impresion.kgSurtMaterial) : '0.00'}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div th:if="${impresion == null}">
+                        <p>No hay datos de impresión.</p>
+                    </div>
+                </div>
+
+                <!-- LAMINACION -->
+                <div class="dashboard-card laminacion">
+                    <h2>Laminación</h2>
+
+                    <div th:if="${laminacion != null}" class="dashboard-two-col">
+
+                        <div class="dashboard-info">
+                            <p><strong>Kg surtido respaldo:</strong>
+                                <span th:text="${laminacion.kgSurtidoRespaldo != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.kgSurtidoRespaldo) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg estimado a laminar:</strong>
+                                <span th:text="${laminacion.kgEstimadoLaminar != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.kgEstimadoLaminar) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg laminado:</strong>
+                                <span th:text="${laminacion.kgLaminado != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.kgLaminado) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg desperdicio:</strong>
+                                <span th:text="${laminacion.kgDesperdicio != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.kgDesperdicio) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Desp_edit:</strong>
+                                <span th:text="${laminacion.kgDesperdicioEdit != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.kgDesperdicioEdit) : '0.00'}"></span>
+                            </p>
+
+                            <p><strong>Metros laminados:</strong>
+                                <span th:text="${laminacion.metrosLaminados != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.metrosLaminados) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg adhesivo:</strong>
+                                <span th:text="${laminacion.kgAdhesivo != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.kgAdhesivo) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Diferencia base:</strong>
+                                <span th:text="${laminacion.difBaseLaminacion != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.difBaseLaminacion) : 'Sin dato'}"
+                                      th:class="${laminacion.difBaseLaminacion == null ? 'sin-datos' :
+                                                 (laminacion.difBaseLaminacion >= -10 and laminacion.difBaseLaminacion <= 10 ? 'verde' :
+                                                 ((laminacion.difBaseLaminacion >= -30 and laminacion.difBaseLaminacion < -10) or (laminacion.difBaseLaminacion > 10 and laminacion.difBaseLaminacion <= 30) ? 'amarillo' : 'rojo'))}">
+                                </span>
+                            </p>
+
+                            <p><strong>Diferencia total:</strong>
+                                <span th:text="${laminacion.difTotalLaminacion != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.difTotalLaminacion) : 'Sin dato'}"
+                                      th:class="${laminacion.difTotalLaminacion == null ? 'sin-datos' :
+                                                 (laminacion.difTotalLaminacion >= -10 and laminacion.difTotalLaminacion <= 10 ? 'verde' :
+                                                 ((laminacion.difTotalLaminacion >= -30 and laminacion.difTotalLaminacion < -10) or (laminacion.difTotalLaminacion > 10 and laminacion.difTotalLaminacion <= 30) ? 'amarillo' : 'rojo'))}">
+                                </span>
+                            </p>
+
+                            <p><strong>Retorno real:</strong>
+                                <span th:text="${laminacion.retornoReal != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.retornoReal) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Estado:</strong>
+                                <span th:text="${laminacion.estadoProceso != null ? laminacion.estadoProceso : 'Sin dato'}"
+                                      th:class="${laminacion.estadoProceso == null ? 'sin-datos' :
+                                                 (laminacion.estadoProceso == 'Secuencia lam completada' ? 'verde' : 'rojo')}">
+                                </span>
+                            </p>
+                        </div>
+
+                        <div class="material-box">
+                            <h4>Material de respaldo</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Descripción</th>
+                                        <th>Kg Req</th>
+                                        <th>Kg Surt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td th:text="${laminacion.codigoMaterial != null ? laminacion.codigoMaterial : '-'}"></td>
+                                        <td th:text="${laminacion.descripcionMaterial != null ? laminacion.descripcionMaterial : '-'}"></td>
+                                        <td th:text="${laminacion.kgReqMaterial != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.kgReqMaterial) : '0.00'}"></td>
+                                        <td th:text="${laminacion.kgSurtMaterial != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', laminacion.kgSurtMaterial) : '0.00'}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div th:if="${laminacion == null}">
+                        <p>No hay datos de laminación.</p>
+                    </div>
+                </div>
+
+                <!-- REFILADO -->
+                <div class="dashboard-card refilado">
+                    <h2>Refilado</h2>
+
+                    <div th:if="${refilado != null}" class="dashboard-two-col">
+
+                        <div class="dashboard-info">
+                            <p><strong>Tipo base:</strong>
+                                <span th:text="${refilado.tipoBase != null ? refilado.tipoBase : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg base corte:</strong>
+                                <span th:text="${refilado.kgBaseCorte != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.kgBaseCorte) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Cantidad requerida:</strong>
+                                <span th:text="${refilado.cantidadRequeridaot != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.cantidadRequeridaot) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg refilado:</strong>
+                                <span th:text="${refilado.kgRefilado != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.kgRefilado) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Kg desperdicio:</strong>
+                                <span th:text="${refilado.kgDesperdicio != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.kgDesperdicio) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Desp_edit:</strong>
+                                <span th:text="${refilado.kgDesperdicioEdit != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.kgDesperdicioEdit) : '0.00'}"></span>
+                            </p>
+
+                            <p><strong>Kg refil:</strong>
+                                <span th:text="${refilado.kgRefil != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.kgRefil) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Diferencia base vs refilado total:</strong>
+                                <span th:text="${refilado.difBaseVsRefiladoTotal != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.difBaseVsRefiladoTotal) : 'Sin dato'}"
+                                      th:class="${refilado.difBaseVsRefiladoTotal == null ? 'sin-datos' :
+                                                 (refilado.difBaseVsRefiladoTotal >= -10 and refilado.difBaseVsRefiladoTotal <= 10 ? 'verde' :
+                                                 ((refilado.difBaseVsRefiladoTotal >= -30 and refilado.difBaseVsRefiladoTotal < -10) or (refilado.difBaseVsRefiladoTotal > 10 and refilado.difBaseVsRefiladoTotal <= 30) ? 'amarillo' : 'rojo'))}">
+                                </span>
+                            </p>
+
+                            <p><strong>% entrega:</strong>
+                                <span th:text="${refilado.porcentajeEntrega != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.porcentajeEntrega) + '%' : 'Sin dato'}"
+                                      th:class="${refilado.porcentajeEntrega == null ? 'sin-datos' :
+                                                 (refilado.porcentajeEntrega >= 100 ? 'verde' :
+                                                 (refilado.porcentajeEntrega >= 95 and refilado.porcentajeEntrega < 100 ? 'amarillo' : 'rojo'))}">
+                                </span>
+                            </p>
+
+                            <p><strong>Retorno:</strong>
+                                <span th:text="${refilado.retorno != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.retorno) : 'Sin dato'}"></span>
+                            </p>
+
+                            <p><strong>Estado:</strong>
+                                <span th:text="${refilado.estadoProceso != null ? refilado.estadoProceso : 'Sin dato'}"
+                                      th:class="${refilado.estadoProceso == null ? 'sin-datos' :
+                                                 (refilado.estadoProceso == 'Secuencia ref completada' ? 'verde' : 'rojo')}">
+                                </span>
+                            </p>
+                        </div>
+
+                        <div class="material-box">
+                            <h4>Resumen de refilado</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tipo base</th>
+                                        <th>Kg base</th>
+                                        <th>% entrega</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td th:text="${refilado.tipoBase != null ? refilado.tipoBase : '-'}"></td>
+                                        <td th:text="${refilado.kgBaseCorte != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.kgBaseCorte) : '0.00'}"></td>
+                                        <td th:text="${refilado.porcentajeEntrega != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', refilado.porcentajeEntrega) + '%' : '0.00%'}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div th:if="${refilado == null}">
+                        <p>No hay datos de refilado.</p>
+                    </div>
+                </div>
+
+                <!-- RESUMEN FINAL -->
+                <div class="dashboard-card resumen">
+                    <h2>Resumen consolidado final</h2>
+
+                    <div class="kpi-row">
+                        <div class="kpi-box">
+                            <div class="label">% entrega final</div>
+                            <div class="value"
+                                 th:if="${porcentajeEntregaFinal != null}"
+                                 th:text="${T(java.lang.String).format(T(java.util.Locale).US, '%.2f', porcentajeEntregaFinal) + '%'}"
+                                 th:class="${porcentajeEntregaFinal >= 100 ? 'verde' :
+                                            (porcentajeEntregaFinal >= 95 and porcentajeEntregaFinal < 100 ? 'amarillo' : 'rojo')}">
+                            </div>
+                            <div class="value sin-datos" th:if="${porcentajeEntregaFinal == null}">Sin dato</div>
+                        </div>
+
+                        <div class="kpi-box">
+                            <div class="label">Estado final</div>
+                            <div class="value"
+                                 th:text="${estadoFinal}"
+                                 th:class="${estadoFinal == 'VERDE' ? 'verde' :
+                                            (estadoFinal == 'AMARILLO' ? 'amarillo' :
+                                            (estadoFinal == 'ROJO' ? 'rojo' : 'sin-datos'))}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <p>
+            <a th:href="@{/}" class="boton-principal">VOLVER AL INICIO</a>
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Seguimiento a Órdenes de Trabajo</title>  
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .titulo {
+            background-color: #06286b;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 18px;
+            width: 90%;
+            margin: 10px auto 30px auto;
+        }
+
+        .contenedor {
+            display: grid;
+            grid-template-columns: repeat(2, 260px);
+            justify-content: center;
+            gap: 40px 30px;
+            margin-top: 20px;
+        }
+
+        .boton-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 260px;
+    height: 120px;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+    border: 3px solid #666;
+    border-radius: 14px;
+    box-shadow:
+        0 6px 0 #666,
+        0 10px 18px rgba(0,0,0,0.35),
+        inset 0 2px 6px rgba(255,255,255,0.45);
+    transition: all 0.15s ease-in-out;
+}
+
+.boton-menu:hover {
+    transform: translateY(2px);
+    box-shadow:
+        0 4px 0 #666,
+        0 6px 12px rgba(0,0,0,0.25),
+        inset 0 2px 6px rgba(255,255,255,0.35);
+}
+
+.boton-menu:active {
+    transform: translateY(6px);
+    box-shadow:
+        0 1px 0 #666,
+        0 3px 6px rgba(0,0,0,0.2),
+        inset 0 2px 6px rgba(255,255,255,0.25);
+}
+
+        .impresion {
+            background-color: #f7c800;
+        }
+
+        .laminacion {
+            background-color: #d9d4d4;
+        }
+
+        .refilado {
+            background-color: #00c853;
+        }
+
+        .consulta {
+            background-color: #b8d7f2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="titulo">Seguimiento a órdenes de trabajo</div>
+
+    <div class="contenedor">
+        <a class="boton-menu impresion" th:href="@{/impresion}">IMPRESIÓN</a>
+        <a class="boton-menu laminacion" th:href="@{/laminacion}">LAMINACIÓN</a>
+        <a class="boton-menu refilado" th:href="@{/refilado}">REFILADO</a>
+        <a class="boton-menu consulta" th:href="@{/consulta}">CONSULTAS DE ÓRDENES</a>
+    </div>
+
+</body>
+</html>

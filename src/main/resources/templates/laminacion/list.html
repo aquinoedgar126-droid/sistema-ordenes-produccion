@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Módulo Laminación</title>
+    <style>
+        .verde {
+            background-color: #c8e6c9;
+            font-weight: bold;
+        }
+
+        .amarillo {
+            background-color: #fff9c4;
+            font-weight: bold;
+        }
+
+        .rojo {
+            background-color: #ffcdd2;
+            font-weight: bold;
+        }
+
+        .tabla-estilo {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .tabla-estilo th {
+            background-color: #dbe5f1;
+            padding: 8px;
+            border: 1px solid #666;
+            text-align: center;
+        }
+
+        .tabla-estilo td {
+            padding: 8px;
+            border: 1px solid #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Módulo de Laminación</h1>
+
+    <p>
+        <a th:href="@{/laminacion/nueva}" style="
+            display:inline-block;
+            background-color:#06286b;
+            color:white;
+            text-decoration:none;
+            padding:15px 25px;
+            font-weight:bold;
+            font-size:20px;
+            border:2px solid #1d3c78;
+            box-shadow:2px 2px 6px rgba(0,0,0,0.4);">
+            CAPTURAR NUEVA ORDEN
+        </a>
+    </p>
+
+    <div style="overflow-x:auto;">
+        <table class="tabla-estilo">
+            <thead>
+                <tr>
+                    <th>OT</th>
+                    <th>Kg surtido respaldo</th>
+                    <th>Kg estimado a laminar</th>
+                    <th>Kg laminado</th>
+                    <th>Kg desperdicio</th>
+                    <th>Desp_edit</th>
+                    <th>Metros laminados</th>
+                    <th>Kg adhesivo</th>
+                    <th>Dif base</th>
+                    <th>Dif total</th>
+                    <th>Retorno real</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="l : ${laminaciones}">
+                    <td th:text="${l.orden.ot}"></td>
+                    <td th:text="${l.kgSurtidoRespaldo}"></td>
+                    <td th:text="${l.kgEstimadoLaminar != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', l.kgEstimadoLaminar) : 'Sin dato'}"></td>
+                    <td th:text="${l.kgLaminado}"></td>
+                    <td th:text="${l.kgDesperdicio}"></td>
+                    <td th:text="${l.kgDesperdicioEdit != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', l.kgDesperdicioEdit) : '0.00'}"></td>
+                    <td th:text="${l.metrosLaminados}"></td>
+                    <td th:text="${l.kgAdhesivo != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', l.kgAdhesivo) : 'Sin dato'}"></td>
+                    <td th:text="${l.difBaseLaminacion != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', l.difBaseLaminacion) : 'Sin dato'}"
+                        th:class="${l.difBaseLaminacion == null ? '' :
+                                   (l.difBaseLaminacion >= -10 and l.difBaseLaminacion <= 10 ? 'verde' :
+                                   ((l.difBaseLaminacion >= -30 and l.difBaseLaminacion < -10) or (l.difBaseLaminacion > 10 and l.difBaseLaminacion <= 30) ? 'amarillo' : 'rojo'))}">
+                    </td>
+                    <td th:text="${l.difTotalLaminacion != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', l.difTotalLaminacion) : 'Sin dato'}"
+                        th:class="${l.difTotalLaminacion == null ? '' :
+                                   (l.difTotalLaminacion >= -10 and l.difTotalLaminacion <= 10 ? 'verde' :
+                                   ((l.difTotalLaminacion >= -30 and l.difTotalLaminacion < -10) or (l.difTotalLaminacion > 10 and l.difTotalLaminacion <= 30) ? 'amarillo' : 'rojo'))}">
+                    </td>
+                    <td th:text="${l.retornoReal != null ? T(java.lang.String).format(T(java.util.Locale).US, '%.2f', l.retornoReal) : 'Sin dato'}"></td>
+                    <td th:text="${l.estadoProceso != null ? l.estadoProceso : 'Sin dato'}"
+                        th:class="${l.estadoProceso == null ? '' :
+                                   (l.estadoProceso == 'Secuencia lam completada' ? 'verde' : 'rojo')}">
+                    </td>
+                    <td>
+                        <a th:href="@{/laminacion/editar/{id}(id=${l.id})}" style="
+                            display:inline-block;
+                            background-color:#fbc02d;
+                            color:black;
+                            text-decoration:none;
+                            padding:6px 12px;
+                            font-weight:bold;
+                            border:1px solid #b28704;
+                            border-radius:6px;
+                            margin-right:6px;">
+                            Editar
+                        </a>
+
+                        <form th:action="@{/laminacion/eliminar/{id}(id=${l.id})}" method="post" style="display:inline;">
+                            <button type="submit" onclick="return confirm('¿Deseas eliminar esta captura de laminación?');"
+                                    style="
+                                    background-color:#d32f2f;
+                                    color:white;
+                                    padding:6px 12px;
+                                    font-weight:bold;
+                                    border:1px solid #8b1e1e;
+                                    border-radius:6px;
+                                    cursor:pointer;">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(laminaciones)}">
+                    <td colspan="13">No hay capturas de laminación registradas.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>
+        <a th:href="@{/}" style="
+            display:inline-block;
+            background-color:#0b2a78;
+            color:white;
+            text-decoration:none;
+            padding:12px 22px;
+            font-weight:bold;
+            border:2px solid #001a57;
+            border-radius:8px;
+            box-shadow:0 4px 0 #001a57, 0 6px 10px rgba(0,0,0,0.25);
+            transition:0.2s;">
+            VOLVER AL INICIO
+        </a>
+    </p>
+</body>
+</html>

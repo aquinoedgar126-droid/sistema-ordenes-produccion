@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${modoEdicion} ? 'Editar Laminación' : 'Nueva Captura de Laminación'"></title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+<body class="modulo-laminacion">
+    <div class="encabezado encabezado-laminacion"
+         th:text="${modoEdicion} ? 'Editar Captura de Laminación' : 'Nueva Captura de Laminación'">
+    </div>
+
+    <div class="form-card">
+        <form th:action="@{/laminacion/guardar}" method="post">
+
+            <input type="hidden" name="id" th:value="${laminacion != null ? laminacion.id : ''}">
+
+            <div class="form-section">
+                <h3>Datos de la orden</h3>
+            </div>
+
+            <div class="form-grid">
+                <div class="campo-formulario">
+                    <label>OT *</label>
+                    <input type="text" name="ot" required th:value="${orden != null ? orden.ot : ''}">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Material de respaldo</h3>
+            </div>
+
+            <div class="form-grid">
+                <div class="campo-formulario">
+                    <label>Código material</label>
+                    <input type="text" name="codigoMaterial"
+                           th:value="${laminacion != null ? laminacion.codigoMaterial : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Descripción material</label>
+                    <input type="text" name="descripcionMaterial"
+                           th:value="${laminacion != null ? laminacion.descripcionMaterial : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kg Req</label>
+                    <input type="number" step="0.01" name="kgReqMaterial"
+                           th:value="${laminacion != null ? laminacion.kgReqMaterial : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kg Surt</label>
+                    <input type="number" step="0.01" name="kgSurtMaterial"
+                           th:value="${laminacion != null ? laminacion.kgSurtMaterial : ''}">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Datos de laminación</h3>
+            </div>
+
+            <div class="form-grid">
+                <div class="campo-formulario">
+                    <label>Kg surtido respaldo</label>
+                    <input type="number" step="0.01" name="kgSurtidoRespaldo"
+                           th:value="${laminacion != null ? laminacion.kgSurtidoRespaldo : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kg laminado</label>
+                    <input type="number" step="0.01" name="kgLaminado"
+                           th:value="${laminacion != null ? laminacion.kgLaminado : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Kg desperdicio</label>
+                    <input type="number" step="0.01" name="kgDesperdicio"
+                           th:value="${laminacion != null ? laminacion.kgDesperdicio : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Desp_edit</label>
+                    <input type="number" step="0.01" name="kgDesperdicioEdit"
+                           th:value="${laminacion != null ? laminacion.kgDesperdicioEdit : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Metros laminados</label>
+                    <input type="number" step="0.01" name="metrosLaminados"
+                           th:value="${laminacion != null ? laminacion.metrosLaminados : ''}">
+                </div>
+
+                <div class="campo-formulario">
+                    <label>Retorno real</label>
+                    <input type="number" step="0.01" name="retornoReal"
+                           th:value="${laminacion != null ? laminacion.retornoReal : ''}">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="boton-guardar"
+                        th:text="${modoEdicion} ? 'ACTUALIZAR CAPTURA' : 'GUARDAR CAPTURA'">
+                </button>
+
+                <a th:href="@{/laminacion}" class="boton-principal">VOLVER AL MÓDULO DE LAMINACIÓN</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de Orden</title>
+</head>
+<body>
+    <h1>Detalle de Orden</h1>
+
+    <p><strong>OT:</strong> <span th:text="${orden.ot}"></span></p>
+    <p><strong>Código:</strong> <span th:text="${orden.codigo}"></span></p>
+    <p><strong>Producto:</strong> <span th:text="${orden.producto}"></span></p>
+    <p><strong>Fecha requerida:</strong> <span th:text="${orden.fechaRequerida}"></span></p>
+    <p><strong>Kg requerido:</strong> <span th:text="${orden.kgRequerido}"></span></p>
+
+    <p>
+        <a th:href="@{/impresion/nueva/{ordenId}(ordenId=${orden.id})}">Capturar impresión</a>
+    </p>
+
+    <p><a th:href="@{/ordenes}">Volver a órdenes</a></p>
+</body>
+</html>

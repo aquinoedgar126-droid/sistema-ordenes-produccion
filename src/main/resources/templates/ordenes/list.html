@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Órdenes</title>
+</head>
+<body>
+  <h1>Órdenes</h1>
+
+  <p><a th:href="@{/ordenes/nueva}">+ Nueva orden</a></p>
+
+  <table border="1" cellpadding="6">
+    <thead>
+      <tr>
+        <th>OT</th>
+        <th>Código</th>
+        <th>Producto</th>
+        <th>Fecha requerida</th>
+        <th>Kg requerido</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="o : ${ordenes}">
+        <td th:text="${o.ot}"></td>
+        <td th:text="${o.codigo}"></td>
+        <td th:text="${o.producto}"></td>
+        <td th:text="${o.fechaRequerida}"></td>
+        <td th:text="${o.kgRequerido}"></td>
+        <td>
+          <a th:href="@{/ordenes/{id}(id=${o.id})}">Ver detalle</a>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(ordenes)}">
+        <td colspan="6">Sin órdenes registradas.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><a th:href="@{/}">Inicio</a></p>
+</body>
+</html>
